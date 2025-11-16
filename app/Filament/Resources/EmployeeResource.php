@@ -7,6 +7,7 @@ use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Models\Employee;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -22,7 +23,6 @@ class EmployeeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->extraAttributes(['novalidate' => true])
             ->schema([
                 Forms\Components\TextInput::make('nik')
                     ->label('NIK')
@@ -55,7 +55,7 @@ class EmployeeResource extends Resource
                     ->unique(ignoreRecord: true),
                 Forms\Components\Select::make('gender')
                     ->label('Jenis Kelamin')
-                    ->options(['Laki-laki' => 'Laki-laki', 'P' => 'Perempuan'])
+                    ->options(['Laki-laki' => 'Laki-laki', 'Perempuan' => 'Perempuan'])
                     ->validationMessages([
                         'required' => 'Jenis kelamin tidak boleh kosong',
                     ])
@@ -69,7 +69,7 @@ class EmployeeResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('division')
                     ->label('Divisi')
-                    ->options(['HRD' => 'HRD', 'Finance' => 'Finance', 'IT' => 'IT', 'Marketing' => 'Marketing', 'Operation' => 'Operating', 'GA' => 'GA'])
+                    ->options(['HRD' => 'HRD', 'Finance' => 'Finance', 'IT' => 'IT', 'Marketing' => 'Marketing', 'Operation' => 'Operation', 'GA' => 'GA'])
                     ->validationMessages([
                         'required' => 'Devisi tidak boleh kosong',
                     ])
@@ -85,7 +85,7 @@ class EmployeeResource extends Resource
                     ->tel()
                     ->rules(['nullable', 'digits_between:10,13'])
                     ->validationMessages([
-                        'digits_between' => 'Nomor telepon harus 10–13 digit.',
+                        'digits_between' => 'Nomor telepon harus 10-13 digit.',
                     ])
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('birth_date')
@@ -110,27 +110,41 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('no')
+                    ->label('No')
+                    ->rowIndex(),
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
+                    ->label('Id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nik')
+                    ->label('NIK')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('full_name')
+                    ->label('Nama lengkap')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('gender'),
-                Tables\Columns\TextColumn::make('position'),
-                Tables\Columns\TextColumn::make('division'),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email'),
+                Tables\Columns\TextColumn::make('gender')
+                    ->label('Jenis Kelamin'),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Jabatan'),
+                Tables\Columns\TextColumn::make('division')
+                    ->label('Devisi'),
                 Tables\Columns\TextColumn::make('joined_at')
-                    ->date()
+                    ->label('Tanggal Bergabung')
+                    ->date('d-F-Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Nomor Telepon')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('birth_date')
-                    ->date()
+                    ->label('Tanggal Lahir')
+                    ->date('d-F-Y')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status_employee'),
+                Tables\Columns\TextColumn::make('status_employee')
+                    ->label('Status Karyawan'),
                 Tables\Columns\TextColumn::make('base_salary')
+                    ->label('Gaji Pokok')
                     ->money('idr', true)
                     ->numeric()
                     ->sortable(),
@@ -148,13 +162,14 @@ class EmployeeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function () {
+                        Notification::make()
+                            ->title('Employee data deleted successfully')
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 

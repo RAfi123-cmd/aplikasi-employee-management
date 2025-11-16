@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->enum('position', ['Staff','Admin', 'Supervisor', 'Manager', 'Intern']);
-            $table->enum('division', ['HRD','Finance', 'IT', 'Marketing', 'Operating', 'GA']);
+            $table->enum('division', ['HRD','Finance', 'IT', 'Marketing', 'Operation', 'GA']);
             $table->date('joined_at');
             $table->string('phone')->nullable();
             $table->date('birth_date')->nullable();
