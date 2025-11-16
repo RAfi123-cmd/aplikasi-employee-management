@@ -1,8 +1,17 @@
-📘 Employee Management System – Laravel + Filament
+### 📘 Employee Management System – Laravel + Filament
+---
+## Login
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/94d4c106-bd42-437d-95d9-283ed9d1e719" />
 
-Aplikasi Manajemen Pegawai yang dibangun menggunakan Laravel v12 dan FilamentPHP v3.2. 
-Aplikasi ini menyediakan fitur login admin, dashboard informatif, dan pengelolaan data pegawai.
+## Dashboard
+<img width="1366" height="727" alt="image" src="https://github.com/user-attachments/assets/b50624ab-431d-42f7-a039-9981d80808a0" />
 
+---
+Aplikasi Manajemen Pegawai ini dibangun menggunakan Laravel v12 dan FilamentPHP v3.2, dirancang untuk mempermudah proses administrasi dan pengelolaan data pegawai.
+Di dalam aplikasi ini, admin dapat melakukan autentikasi, mengakses dashboard informatif, dan mengelola data pegawai secara lengkap melalui interface yang modern dan responsif. Dashboard menyajikan rangkuman data seperti total pegawai, grafik pegawai berdasarkan jabatan, daftar 5 pegawai terbaru, serta berbagai quick action untuk mempercepat navigasi.
+Sistem ini mendukung proses CRUD pegawai dengan ID unik otomatis berbasis UUID, sehingga data tercatat dengan aman, terstruktur, dan mudah dikelola.
+
+---
 🚀 Fitur aplikasi Employee Management System
 🔐 Admin Login
 
